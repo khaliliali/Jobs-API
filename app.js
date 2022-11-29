@@ -7,12 +7,12 @@ const app = express();
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
-app.use(express.json());
+app.use(express.json());  
 // extra packages
 
 // routes
 app.get('/', (req, res) => {
-  res.send('jobs api');
+  res.send('jobs api develop Branch'); 
 });
 
 app.use(notFoundMiddleware);
