@@ -6,8 +6,8 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide name'],
-    maxLength: 50,
-    minlength: 2,
+    maxlength: 50,
+    minlength: 3,
   },
   email: {
     type: String,
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide password'],
-    minlength: 3,
+    minlength: 6,
   },
 });
 
@@ -30,7 +30,7 @@ UserSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.createJWT = () => {
+UserSchema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name },
     process.env.JWT_SECRET,
@@ -40,7 +40,7 @@ UserSchema.methods.createJWT = () => {
   );
 };
 
-UserSchema.methods.comparePassword = async function(candidatePassword){
+UserSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
 };
